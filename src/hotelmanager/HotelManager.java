@@ -8,12 +8,14 @@ package hotelmanager;
  *
  * @author Cmato
  */
-public class HotelManager {
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-	// TODO code application logic here
-    }
+public interface HotelManager {
+    
+    void createPerson(Person person) throws ServiceFailureException;
+    
+    Person getPerson(Long id) throws ServiceFailureException;
+    
+    void updatePerson(Person person) throws ServiceFailureException;
+    
+    void deletePerson(Person person) throws ServiceFailureException;
+    
 }
