@@ -384,14 +384,6 @@ public class HotelManagerImplTest {
             //OK
         }
 
-        room = newRoom(RoomType.bungalow,4); 
-        try {
-            manager.createRoom(room);
-            fail();
-        } catch (IllegalArgumentException ex) {
-            //OK
-        }
-
         room = newRoom(null,4); 
         try {
             manager.createRoom(room);
