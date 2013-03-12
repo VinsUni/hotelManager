@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author Cmato
+ * @author Cmato a Andrej
  */
 public class HotelManagerImplTest {
     
