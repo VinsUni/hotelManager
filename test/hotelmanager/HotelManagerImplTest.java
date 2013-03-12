@@ -319,7 +319,7 @@ public class HotelManagerImplTest {
         }        
 
     }
-    
+
     //<---------------------------------------SART ROOM TEST--------------------------------------------->
 
     @Test
@@ -361,6 +361,22 @@ public class HotelManagerImplTest {
 
         Room room = newRoom(RoomType.bungalow,4);
         room.setId(1l);
+        try {
+            manager.createRoom(room);
+            fail();
+        } catch (IllegalArgumentException ex) {
+            //OK
+        }
+
+        room = newRoom(RoomType.bungalow,-4);
+        try {
+            manager.createRoom(room);
+            fail();
+        } catch (IllegalArgumentException ex) {
+            //OK
+        }
+
+        room = newRoom(RoomType.bungalow,0);
         try {
             manager.createRoom(room);
             fail();
