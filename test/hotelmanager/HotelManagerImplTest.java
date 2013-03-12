@@ -10,7 +10,7 @@ import java.lang.Enum;
 
 /**
  *
- * @author Martin Cmarko
+ * @author Cmato a Andrej
  */
 public class HotelManagerImplTest {
     
