@@ -6,7 +6,7 @@ package hotelmanager;
 
 /**
  *
- * @author Cmato
+ * @author Martin Cmarko
  */
 public interface HotelManager {
     
@@ -17,5 +17,13 @@ public interface HotelManager {
     void updatePerson(Person person) throws ServiceFailureException;
     
     void deletePerson(Person person) throws ServiceFailureException;
+    
+    void createRoom(Room room) throws ServiceFailureException;
+    
+    Room getRoom(Long id) throws ServiceFailureException;
+    
+    void updateRoom(Room room) throws ServiceFailureException;
+    
+    void deleteRoom(Room room) throws ServiceFailureException;
     
 }

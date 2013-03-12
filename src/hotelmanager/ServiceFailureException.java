@@ -3,7 +3,7 @@ package hotelmanager;
 /**
  * This exception indicates service failure.
  *  
- * @author Petr Adamek
+ * @author Andrej
  */
 public class ServiceFailureException extends RuntimeException {
 
