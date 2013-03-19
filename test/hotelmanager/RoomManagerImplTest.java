@@ -46,6 +46,7 @@ public class RoomManagerImplTest {
     
     @Test
     public void createRoom() {
+	
         Room room = newRoom(RoomType.bungalow,4);
         manager.createRoom(room);
 
@@ -55,6 +56,7 @@ public class RoomManagerImplTest {
         assertEquals(room, result);
         assertNotSame(room, result);
         assertDeepEquals(room, result);
+	
     }
     
     @Test
@@ -69,52 +71,53 @@ public class RoomManagerImplTest {
         Room result = manager.getRoom(roomId);
         assertEquals(room, result);
         assertDeepEquals(room, result);
+	
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void createRoomNull() {
+	
+        manager.createRoom(null);
+	
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void createRoomNullId() {
+	
+        Room room = newRoom(RoomType.bungalow,4);
+        room.setId(null);
+        manager.createRoom(room);
+	
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void createRoomNegativeCapacity() {
+	
+        Room room = newRoom(RoomType.bungalow,-4);
+        manager.createRoom(room);
+	
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void createRoomZeroCapacity() {
+	
+        Room room = newRoom(RoomType.bungalow,0);
+        manager.createRoom(room);
+	
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void createRoomNullType() {
+	
+        Room room = newRoom(null,4);
+        manager.createRoom(room);
+	
     }
     
     @Test
-    public void addRoomWithWrongAttributes() {
-
-        try {
-            manager.createRoom(null);
-            fail();
-        } catch (IllegalArgumentException ex) {
-            //OK
-        }
+    public void addRoomWithValidAttributes() {
 
         Room room = newRoom(RoomType.bungalow,4);
-        room.setId(1l);
-        try {
-            manager.createRoom(room);
-            fail();
-        } catch (IllegalArgumentException ex) {
-            //OK
-        }
-
-        room = newRoom(RoomType.bungalow,-4);
-        try {
-            manager.createRoom(room);
-            fail();
-        } catch (IllegalArgumentException ex) {
-            //OK
-        }
-
-        room = newRoom(RoomType.bungalow,0);
-        try {
-            manager.createRoom(room);
-            fail();
-        } catch (IllegalArgumentException ex) {
-            //OK
-        }
-
-        room = newRoom(null,4); 
-        try {
-            manager.createRoom(room);
-            fail();
-        } catch (IllegalArgumentException ex) {
-            //OK
-        }
-
-        // these variants should be ok
         room = newRoom(RoomType.apartment,2);
         manager.createRoom(room);
         Room result = manager.getRoom(room.getId()); 
@@ -146,65 +149,73 @@ public class RoomManagerImplTest {
         assertDeepEquals(g2, manager.getRoom(g2.getId()));
     }
     
-    @Test
-    public void updateRoomWithWrongAttributes() {
-
+    @Test(expected = IllegalArgumentException.class)
+    public void updateRoomNull() {
+	
+        Room room = newRoom(RoomType.bungalow,4);
+        manager.createRoom(room);
+        manager.updateRoom(null);
+	
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void updateRoomNullId() {
+	
         Room room = newRoom(RoomType.bungalow,4);
         manager.createRoom(room);
         Long roomId = room.getId();
-        
-        try {
-            manager.updateRoom(null);
-            fail();
-        } catch (IllegalArgumentException ex) {
-            //OK
-        }
-        
-        try {
-            room = manager.getRoom(roomId);
-            room.setId(null);
-            manager.updateRoom(room);        
-            fail();
-        } catch (IllegalArgumentException ex) {
-            //OK
-        }
-
-        try {
-            room = manager.getRoom(roomId);
-            room.setId(roomId - 1);
-            manager.updateRoom(room);        
-            fail();
-        } catch (IllegalArgumentException ex) {
-            //OK
-        }
-
-        try {
-            room = manager.getRoom(roomId);
-            room.setType(null);
-            manager.updateRoom(room);        
-            fail();
-        } catch (IllegalArgumentException ex) {
-            //OK
-        }
-
-        try {
-            room = manager.getRoom(roomId);
-            room.setCapacity(0);
-            manager.updateRoom(room);        
-            fail();
-        } catch (IllegalArgumentException ex) {
-            //OK
-        }
-
-        try {
-            room = manager.getRoom(roomId);
-            room.setCapacity(-1);
-            manager.updateRoom(room);        
-            fail();
-        } catch (IllegalArgumentException ex) {
-            //OK
-        }
-
+	room = manager.getRoom(roomId);
+	room.setId(null);
+	manager.updateRoom(room); 
+	
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void updateRoomDecreaseId() {
+	
+        Room room = newRoom(RoomType.bungalow,4);
+        manager.createRoom(room);
+        Long roomId = room.getId();
+	room = manager.getRoom(roomId);
+	room.setId(roomId - 1);
+	manager.updateRoom(room);
+	
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void updateRoomNullType() {
+	
+        Room room = newRoom(RoomType.bungalow,4);
+        manager.createRoom(room);
+        Long roomId = room.getId();
+	room = manager.getRoom(roomId);
+	room.setType(null);
+	manager.updateRoom(room);  
+	
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void updateRoomZeroCapacity() {
+	
+        Room room = newRoom(RoomType.bungalow,4);
+        manager.createRoom(room);
+        Long roomId = room.getId();
+	room = manager.getRoom(roomId);
+	room.setCapacity(0);
+	manager.updateRoom(room);  
+	
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void updateRoomNegativeCapacity() {
+	
+        Room room = newRoom(RoomType.bungalow,4);
+        manager.createRoom(room);
+        Long roomId = room.getId();
+	room = manager.getRoom(roomId);
+	room.setCapacity(-1);
+	manager.updateRoom(room);  
+	
     }
     
     @Test
@@ -225,35 +236,33 @@ public class RoomManagerImplTest {
                 
     }
     
+    @Test(expected = IllegalArgumentException.class)
+    public void deleteRoomNull() {
+	
+        Room room = newRoom(RoomType.bungalow,4); 
+	manager.createRoom(room);
+	manager.deleteRoom(null);
+	
+    }
     
-    @Test
-    public void deleteRoomWithWrongAttributes() {
-
-        Room room = newRoom(RoomType.bungalow,4);
-        
-        try {
-            manager.deleteRoom(null);
-            fail();
-        } catch (IllegalArgumentException ex) {
-            //OK
-        }
-
-        try {
-            room.setId(null);
-            manager.deleteRoom(room);
-            fail();
-        } catch (IllegalArgumentException ex) {
-            //OK
-        }
-
-        try {
-            room.setId(1l);
-            manager.deleteRoom(room);
-            fail();
-        } catch (IllegalArgumentException ex) {
-            //OK
-        }        
-
+    @Test(expected = IllegalArgumentException.class)
+    public void deleteRoomNullId() {
+	
+        Room room = newRoom(RoomType.bungalow,4); 
+	manager.createRoom(room);
+	room.setId(null);
+	manager.deleteRoom(room);
+	
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void deleteRoomWrongId() {
+	
+        Room room = newRoom(RoomType.bungalow,4); 
+	manager.createRoom(room);
+	room.setId(1l);
+	manager.deleteRoom(room);
+	
     }
     
     private static Room newRoom(RoomType type, int capacity) {
