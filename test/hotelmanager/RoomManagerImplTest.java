@@ -115,17 +115,6 @@ public class RoomManagerImplTest {
     }
     
     @Test
-    public void addRoomWithValidAttributes() {
-
-        Room room = newRoom(RoomType.bungalow,4);
-        room = newRoom(RoomType.apartment,2);
-        manager.createRoom(room);
-        Room result = manager.getRoom(room.getId()); 
-        assertNotNull(result);
-
-    }
-    
-    @Test
     public void updateRoom() {
         Room room = newRoom(RoomType.bungalow,4);
         Room g2 = newRoom(RoomType.apartment,2);
@@ -152,8 +141,6 @@ public class RoomManagerImplTest {
     @Test(expected = IllegalArgumentException.class)
     public void updateRoomNull() {
 	
-        Room room = newRoom(RoomType.bungalow,4);
-        manager.createRoom(room);
         manager.updateRoom(null);
 	
     }
@@ -239,8 +226,6 @@ public class RoomManagerImplTest {
     @Test(expected = IllegalArgumentException.class)
     public void deleteRoomNull() {
 	
-        Room room = newRoom(RoomType.bungalow,4); 
-	manager.createRoom(room);
 	manager.deleteRoom(null);
 	
     }
@@ -250,6 +235,8 @@ public class RoomManagerImplTest {
 	
         Room room = newRoom(RoomType.bungalow,4); 
 	manager.createRoom(room);
+        Long roomId = room.getId();
+        room = manager.getRoom(roomId);
 	room.setId(null);
 	manager.deleteRoom(room);
 	
@@ -260,21 +247,27 @@ public class RoomManagerImplTest {
 	
         Room room = newRoom(RoomType.bungalow,4); 
 	manager.createRoom(room);
+        Long roomId = room.getId();
+        room = manager.getRoom(roomId);
 	room.setId(1l);
 	manager.deleteRoom(room);
 	
     }
     
     private static Room newRoom(RoomType type, int capacity) {
+        
         Room room = new Room();
         room.setType(type);
         room.setCapacity(capacity);
         return room;
+        
     }
     
     private void assertDeepEquals(Room expected, Room actual) {
+        
         assertEquals(expected.getId(), actual.getId());
         assertEquals(expected.getType(), actual.getType());
         assertEquals(expected.getCapacity(), actual.getCapacity());
+        
     }
 }
