@@ -59,7 +59,6 @@ public class PersonManagerImplTest {
     
     @Test
     public void getPerson() {
-        
         assertNull(manager.getPerson(1l));
         
         Person person = newPerson("Jozko","Mrkvička","obc321","tel654","jozko@example.com");
@@ -131,7 +130,7 @@ public class PersonManagerImplTest {
     @Test
     public void updatePerson() {
         Person person = newPerson("Jozko","Mrkvička","obc321","tel654","jozko@example.com");
-        Person g2 = newPerson("Jozefína","Mrkvičková","občan 1.","608telefon","jozinko@example.com");
+        Person g2 = newPerson("Michal","Chobot","prekuaz no. 4","123mobil","michal@chobot.net");
         manager.createPerson(person);
         manager.createPerson(g2);
         Long personId = person.getId();
@@ -280,7 +279,6 @@ public class PersonManagerImplTest {
     
     @Test
     public void deletePerson() {
-
         Person g1 = newPerson("Jozko","Mrkvička","obc321","tel654","jozko@example.com");
         Person g2 = newPerson("Jozefína","Mrkvičková","občan 1.","608telefon","jozinko@example.com");
         manager.createPerson(g1);
@@ -296,36 +294,32 @@ public class PersonManagerImplTest {
                 
     }
     
+    @Test(expected = IllegalArgumentException.class)
+    public void deletePersonNull() { 
+        manager.deletePerson(null);
+    }    
     
-    @Test
-    public void deletePersonWithWrongAttributes() {
-
+    @Test(expected = IllegalArgumentException.class)
+    public void deletePersonNullId() {
         Person person = newPerson("Jozko","Mrkvička","obc321","tel654","jozko@example.com");
+        manager.createPerson(person);
+        Long personId = person.getId();
         
-        try {
-            manager.deletePerson(null);
-            fail();
-        } catch (IllegalArgumentException ex) {
-            //OK
-        }
-
-        try {
-            person.setId(null);
-            manager.deletePerson(person);
-            fail();
-        } catch (IllegalArgumentException ex) {
-            //OK
-        }
-
-        try {
-            person.setId(1l);
-            manager.deletePerson(person);
-            fail();
-        } catch (IllegalArgumentException ex) {
-            //OK
-        }        
-
-    }
+        person = manager.getPerson(personId);
+        person.setId(null);
+        manager.deletePerson(person);
+    }    
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void deletePersonWrongId() {
+        Person person = newPerson("Jozko","Mrkvička","obc321","tel654","jozko@example.com");
+        manager.createPerson(person);
+        Long personId = person.getId();
+        
+        person = manager.getPerson(personId);
+        person.setId(1l);
+        manager.deletePerson(person);
+    }       
     
     private static Person newPerson(String name, String surname, String idCardNumber, String mobile, String email) {
         Person person = new Person();
