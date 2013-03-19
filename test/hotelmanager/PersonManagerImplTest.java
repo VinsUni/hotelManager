@@ -185,91 +185,97 @@ public class PersonManagerImplTest {
         assertDeepEquals(g2, manager.getPerson(g2.getId()));
     }
     
-    @Test
-    public void updatePersonWithWrongAttributes() {
-
+    @Test(expected = IllegalArgumentException.class)
+    public void updatePersonNull() {
+        manager.updatePerson(null);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void updatePersonNullId() {
         Person person = newPerson("Jozko","Mrkvička","obc321","tel654","jozko@example.com");
         manager.createPerson(person);
         Long personId = person.getId();
         
-        try {
-            manager.updatePerson(null);
-            fail();
-        } catch (IllegalArgumentException ex) {
-            //OK
-        }
+        person = manager.getPerson(personId);
+        person.setId(null);
+        manager.updatePerson(person); 
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void updatePersonWrongId() {
+        Person person = newPerson("Jozko","Mrkvička","obc321","tel654","jozko@example.com");
+        manager.createPerson(person);
+        Long personId = person.getId();
         
-        try {
-            person = manager.getPerson(personId);
-            person.setId(null);
-            manager.updatePerson(person);        
-            fail();
-        } catch (IllegalArgumentException ex) {
-            //OK
-        }
-
-        try {
-            person = manager.getPerson(personId);
-            person.setId(personId - 1);
-            manager.updatePerson(person);        
-            fail();
-        } catch (IllegalArgumentException ex) {
-            //OK
-        }
-
-        try {
-            person = manager.getPerson(personId);
-            person.setIdCardNumber(null);
-            manager.updatePerson(person);        
-            fail();
-        } catch (IllegalArgumentException ex) {
-            //OK
-        }
-
-        try {
-            person = manager.getPerson(personId);
-            person.setName(null);
-            manager.updatePerson(person);        
-            fail();
-        } catch (IllegalArgumentException ex) {
-            //OK
-        }
-
-        try {
-            person = manager.getPerson(personId);
-            person.setSurname(null);
-            manager.updatePerson(person);        
-            fail();
-        } catch (IllegalArgumentException ex) {
-            //OK
-        }
-
-        try {
-            person = manager.getPerson(personId);
-            person.setIdCardNumber("");
-            manager.updatePerson(person);        
-            fail();
-        } catch (IllegalArgumentException ex) {
-            //OK
-        }
-
-        try {
-            person = manager.getPerson(personId);
-            person.setName("");
-            manager.updatePerson(person);        
-            fail();
-        } catch (IllegalArgumentException ex) {
-            //OK
-        }
-
-        try {
-            person = manager.getPerson(personId);
-            person.setSurname("");
-            manager.updatePerson(person);        
-            fail();
-        } catch (IllegalArgumentException ex) {
-            //OK
-        }
+        person = manager.getPerson(personId);
+        person.setId(personId - 1);
+        manager.updatePerson(person); 
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void updatePersonNullIdCardNumber() {
+        Person person = newPerson("Jozko","Mrkvička","obc321","tel654","jozko@example.com");
+        manager.createPerson(person);
+        Long personId = person.getId();
+        
+        person = manager.getPerson(personId);
+        person.setIdCardNumber(null);
+        manager.updatePerson(person); 
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void updatePersonNullName() {
+        Person person = newPerson("Jozko","Mrkvička","obc321","tel654","jozko@example.com");
+        manager.createPerson(person);
+        Long personId = person.getId();
+        
+        person = manager.getPerson(personId);
+        person.setName(null);
+        manager.updatePerson(person); 
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void updatePersonNullSurname() {
+        Person person = newPerson("Jozko","Mrkvička","obc321","tel654","jozko@example.com");
+        manager.createPerson(person);
+        Long personId = person.getId();
+        
+        person = manager.getPerson(personId);
+        person.setSurname(null);
+        manager.updatePerson(person); 
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void updatePersonEmptyIdCardNumber() {
+        Person person = newPerson("Jozko","Mrkvička","obc321","tel654","jozko@example.com");
+        manager.createPerson(person);
+        Long personId = person.getId();
+        
+        person = manager.getPerson(personId);
+        person.setIdCardNumber("");
+        manager.updatePerson(person); 
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void updatePersonEmptyName() {
+        Person person = newPerson("Jozko","Mrkvička","obc321","tel654","jozko@example.com");
+        manager.createPerson(person);
+        Long personId = person.getId();
+        
+        person = manager.getPerson(personId);
+        person.setName("");
+        manager.updatePerson(person); 
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void updatePersonEmptySurname() {
+        Person person = newPerson("Jozko","Mrkvička","obc321","tel654","jozko@example.com");
+        manager.createPerson(person);
+        Long personId = person.getId();
+        
+        person = manager.getPerson(personId);
+        person.setSurname("");
+        manager.updatePerson(person); 
     }
     
     @Test
