@@ -130,9 +130,19 @@ public class RoomManagerImpl implements RoomManager {
     private Room resultSetToRoom(ResultSet rs) throws SQLException {
         Room room = new Room();
         room.setId(rs.getLong("id"));
-        room.setType(Room.nameToType(rs.getString("type")));
+        room.setType(nameToType(rs.getString("type")));
         room.setCapacity(rs.getInt("capacity"));
         return room;
+    }
+    
+    private RoomType nameToType(String name) {
+        if (name.equals("apartment")) {
+            return RoomType.apartment;
+        } else if (name.equals("bungalow")) {
+            return RoomType.bungalow;
+        } else {
+            throw new IllegalArgumentException("wrong type");
+        }
     }
 
     @Override
