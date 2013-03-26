@@ -56,6 +56,16 @@ public class Room {
         this.capacity = capacity;
     }
     
+    public static RoomType nameToType(String name) {
+        if (name.equals("apartment")) {
+            return RoomType.apartment;
+        } else if (name.equals("bungalow")) {
+            return RoomType.bungalow;
+        } else {
+            throw new IllegalArgumentException("wrong type");
+        }
+    }
+    
      @Override
     public String toString() {
         return "Room{" + "id=" + getId() + '}';

@@ -1,0 +1,8 @@
+----------------------------------------------------------------
+2013-03-26 14:03:40.892 GMT:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.6.2.1 - (999685): instance a816c00e-013d-a702-f170-000002fe28e8 
+on database directory memory:D:\Dropbox\java\hotelManager\HotelManagerTest  with class loader sun.misc.Launcher$AppClassLoader@4f50f0e2 
+Loaded from file:/D:/Dropbox/java/GraveManager-SimpleDBImpl/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.7.0_11-b21
+Database Class Loader started - derby.database.classpath=''

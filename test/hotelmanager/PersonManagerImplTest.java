@@ -4,11 +4,17 @@
  */
 package hotelmanager;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.sql.SQLException;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 /**
@@ -18,25 +24,29 @@ import static org.junit.Assert.*;
 public class PersonManagerImplTest {
     
     private PersonManagerImpl manager;
+    private Connection conn;
     
     public PersonManagerImplTest() {
     }
     
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
     @Before
-    public void setUp() {
-        manager = new PersonManagerImpl();
+    public void setUp() throws SQLException {
+        conn = DriverManager.getConnection("jdbc:derby:memory:HotelManagerTest;create=true");
+        conn.prepareStatement("CREATE TABLE PERSON ("
+                + "id bigint primary key generated always as identity,"
+                + "name varchar(255),"
+                + "surname varchar(255),"
+                + "idcardnumber varchar(255),"
+                + "email varchar(255),"
+                + "mobile varchar(255))").executeUpdate();
+        
+        manager = new PersonManagerImpl(conn);
     }
     
     @After
-    public void tearDown() {
+    public void tearDown() throws SQLException {
+        conn.prepareStatement("DROP TABLE PERSON").executeUpdate();        
+        conn.close();
     }
     // TODO add test methods here.
     // The methods must be annotated with annotation @Test. For example:
@@ -73,13 +83,6 @@ public class PersonManagerImplTest {
     @Test(expected = IllegalArgumentException.class)
     public void createPersonNull() {
         manager.createPerson(null);
-    }
-    
-    @Test(expected = IllegalArgumentException.class)
-    public void createPersonNullId() {
-        Person person = newPerson("Jozko","Mrkvička","obc321","tel654","jozko@example.com");
-        person.setId(null);
-        manager.createPerson(person);
     }
     
     @Test(expected = IllegalArgumentException.class)

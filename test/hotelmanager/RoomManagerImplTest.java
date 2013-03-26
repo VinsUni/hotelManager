@@ -4,6 +4,9 @@
  */
 package hotelmanager;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -18,25 +21,25 @@ import static org.junit.Assert.*;
 public class RoomManagerImplTest {
     
     private RoomManagerImpl manager;
+    private Connection conn;
     
     public RoomManagerImplTest() {
     }
     
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
     @Before
-    public void setUp() {
-        manager = new RoomManagerImpl();
+    public void setUp() throws SQLException {
+        conn = DriverManager.getConnection("jdbc:derby:memory:HotelManagerTest;create=true");
+        conn.prepareStatement("CREATE TABLE ROOM ("
+                + "id bigint primary key generated always as identity,"
+                + "type varchar(255) not null,"
+                + "capacity int not null)").executeUpdate();
+        manager = new RoomManagerImpl(conn);
     }
     
     @After
-    public void tearDown() {
+    public void tearDown() throws SQLException {
+        conn.prepareStatement("DROP TABLE ROOM").executeUpdate();        
+        conn.close();
     }
     // TODO add test methods here.
     // The methods must be annotated with annotation @Test. For example:
@@ -78,15 +81,6 @@ public class RoomManagerImplTest {
     public void createRoomNull() {
 	
         manager.createRoom(null);
-	
-    }
-    
-    @Test(expected = IllegalArgumentException.class)
-    public void createRoomNullId() {
-	
-        Room room = newRoom(RoomType.bungalow,4);
-        room.setId(null);
-        manager.createRoom(room);
 	
     }
     
