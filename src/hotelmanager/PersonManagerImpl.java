@@ -51,12 +51,6 @@ public class PersonManagerImpl implements PersonManager{
         if (person.getIdCardNumber().equals("")) {
             throw new IllegalArgumentException("person idCardNumber is empty");            
         }
-        if (person.getEmail() == null) {
-            throw new IllegalArgumentException("person emial is null");            
-        }
-        if (person.getMobile() == null) {
-            throw new IllegalArgumentException("person mobile is null");            
-        }
         
         PreparedStatement st = null;
         try {
@@ -154,7 +148,7 @@ public class PersonManagerImpl implements PersonManager{
         person.setName(rs.getString("name"));
         person.setSurname(rs.getString("surname"));
         person.setIdCardNumber(rs.getString("idcardnumber"));
-        person.setEmail(rs.getString("emial"));
+        person.setEmail(rs.getString("email"));
         person.setMobile(rs.getString("mobile"));
         return person;
     }
