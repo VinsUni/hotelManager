@@ -4,6 +4,10 @@
  */
 package hotelmanager;
 
+import common.ValidationException;
+import common.IllegalEntityException;
+import common.DBUtils;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.Arrays;
@@ -11,9 +15,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.sql.SQLException;
+import javax.sql.DataSource;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.apache.commons.dbcp.BasicDataSource;
 
 import static org.junit.Assert.*;
 
@@ -24,29 +30,30 @@ import static org.junit.Assert.*;
 public class PersonManagerImplTest {
     
     private PersonManagerImpl manager;
-    private Connection conn;
+    //private Connection conn;
+    private DataSource ds;
+
+    private static DataSource prepareDataSource() throws SQLException {
+        BasicDataSource ds = new BasicDataSource();
+        //we will use in memory database
+        ds.setUrl("jdbc:derby:memory:hotelmanager-test;create=true");
+        return ds;
+    }
     
     public PersonManagerImplTest() {
     }
     
     @Before
     public void setUp() throws SQLException {
-        conn = DriverManager.getConnection("jdbc:derby:memory:HotelManagerTest;create=true");
-        conn.prepareStatement("CREATE TABLE PERSON ("
-                + "id bigint primary key generated always as identity,"
-                + "name varchar(255),"
-                + "surname varchar(255),"
-                + "idcardnumber varchar(255),"
-                + "email varchar(255),"
-                + "mobile varchar(255))").executeUpdate();
-        
-        manager = new PersonManagerImpl(conn);
+        ds = prepareDataSource();
+        DBUtils.executeSqlScript(ds,HotelManager.class.getResource("createTables.sql"));
+        manager = new PersonManagerImpl();
+        manager.setDataSource(ds);
     }
-    
+
     @After
     public void tearDown() throws SQLException {
-        conn.prepareStatement("DROP TABLE PERSON").executeUpdate();        
-        conn.close();
+        DBUtils.executeSqlScript(ds,HotelManager.class.getResource("dropTables.sql"));
     }
     // TODO add test methods here.
     // The methods must be annotated with annotation @Test. For example:
@@ -247,39 +254,6 @@ public class PersonManagerImplTest {
         manager.updatePerson(person); 
     }
     
-    @Test(expected = IllegalArgumentException.class)
-    public void updatePersonEmptyIdCardNumber() {
-        Person person = newPerson("Jozko","Mrkvička","obc321","tel654","jozko@example.com");
-        manager.createPerson(person);
-        Long personId = person.getId();
-        
-        person = manager.getPerson(personId);
-        person.setIdCardNumber("");
-        manager.updatePerson(person); 
-    }
-    
-    @Test(expected = IllegalArgumentException.class)
-    public void updatePersonEmptyName() {
-        Person person = newPerson("Jozko","Mrkvička","obc321","tel654","jozko@example.com");
-        manager.createPerson(person);
-        Long personId = person.getId();
-        
-        person = manager.getPerson(personId);
-        person.setName("");
-        manager.updatePerson(person); 
-    }
-    
-    @Test(expected = IllegalArgumentException.class)
-    public void updatePersonEmptySurname() {
-        Person person = newPerson("Jozko","Mrkvička","obc321","tel654","jozko@example.com");
-        manager.createPerson(person);
-        Long personId = person.getId();
-        
-        person = manager.getPerson(personId);
-        person.setSurname("");
-        manager.updatePerson(person); 
-    }
-    
     @Test
     public void deletePerson() {
         Person g1 = newPerson("Jozko","Mrkvička","obc321","tel654","jozko@example.com");
@@ -311,18 +285,7 @@ public class PersonManagerImplTest {
         person = manager.getPerson(personId);
         person.setId(null);
         manager.deletePerson(person);
-    }    
-    
-    @Test(expected = IllegalArgumentException.class)
-    public void deletePersonWrongId() {
-        Person person = newPerson("Jozko","Mrkvička","obc321","tel654","jozko@example.com");
-        manager.createPerson(person);
-        Long personId = person.getId();
-        
-        person = manager.getPerson(personId);
-        person.setId(1l);
-        manager.deletePerson(person);
-    }       
+    }           
     
     private static Person newPerson(String name, String surname, String idCardNumber, String mobile, String email) {
         Person person = new Person();
