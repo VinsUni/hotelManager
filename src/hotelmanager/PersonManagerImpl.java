@@ -67,7 +67,7 @@ public class PersonManagerImpl implements PersonManager{
             person.setId(id);
             conn.commit();
         } catch (SQLException ex) {
-            String msg = "Error when inserting grave into db";
+            String msg = "Error when inserting person into db";
             logger.log(Level.SEVERE, msg, ex);
             throw new ServiceFailureException(msg, ex);
         } finally {
@@ -215,7 +215,7 @@ public class PersonManagerImpl implements PersonManager{
     
     static private void validate(Person person) {        
         if (person == null) {
-            throw new IllegalArgumentException("grave is null");
+            throw new IllegalArgumentException("person is null");
         }
         if (person.getName() == null) {
             throw new IllegalArgumentException("name is null");
