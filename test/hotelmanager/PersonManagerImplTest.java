@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.sql.SQLException;
+import java.util.*;
 import javax.sql.DataSource;
 import org.junit.After;
 import org.junit.Before;
@@ -71,7 +72,7 @@ public class PersonManagerImplTest {
         Person result = manager.getPerson(personId);
         assertEquals(person, result);
         assertNotSame(person, result);
-        assertDeepEquals(person, result);
+        assertPersonDeepEquals(person, result);
     }
     
     @Test
@@ -84,7 +85,7 @@ public class PersonManagerImplTest {
 
         Person result = manager.getPerson(personId);
         assertEquals(person, result);
-        assertDeepEquals(person, result);
+        assertPersonDeepEquals(person, result);
     }
     
     @Test(expected = IllegalArgumentException.class)
@@ -191,7 +192,7 @@ public class PersonManagerImplTest {
         assertEquals("jozinko@example.com", person.getEmail());
 
         // Check if updates didn't affected other records
-        assertDeepEquals(g2, manager.getPerson(g2.getId()));
+        assertPersonDeepEquals(g2, manager.getPerson(g2.getId()));
     }
     
     @Test(expected = IllegalArgumentException.class)
@@ -287,7 +288,7 @@ public class PersonManagerImplTest {
         manager.deletePerson(person);
     }           
     
-    private static Person newPerson(String name, String surname, String idCardNumber, String mobile, String email) {
+    static Person newPerson(String name, String surname, String idCardNumber, String mobile, String email) {
         Person person = new Person();
         person.setEmail(email);
         person.setIdCardNumber(idCardNumber);
@@ -297,12 +298,42 @@ public class PersonManagerImplTest {
         return person;
     }
     
-    private void assertDeepEquals(Person expected, Person actual) {
+    static void assertPersonDeepEquals(Person expected, Person actual) {
         assertEquals(expected.getId(), actual.getId());
         assertEquals(expected.getEmail(), actual.getEmail());
         assertEquals(expected.getIdCardNumber(), actual.getIdCardNumber());
         assertEquals(expected.getMobile(), actual.getMobile());
         assertEquals(expected.getName(), actual.getName());
         assertEquals(expected.getSurname(), actual.getSurname());
+    }
+    
+    private static Comparator<Person> personKeyComparator = new Comparator<Person>() {
+
+        @Override
+        public int compare(Person o1, Person o2) {
+            Long k1 = o1.getId();
+            Long k2 = o2.getId();
+            if (k1 == null && k2 == null) {
+                return 0;
+            } else if (k1 == null && k2 != null) {
+                return -1;
+            } else if (k1 != null && k2 == null) {
+                return 1;
+            } else {
+                return k1.compareTo(k2);
+            }
+        }
+    };
+    
+    static void assertPersonCollectionDeepEquals(List<Person> expected, List<Person> actual) {
+        
+        assertEquals(expected.size(), actual.size());
+        List<Person> expectedSortedList = new ArrayList<Person>(expected);
+        List<Person> actualSortedList = new ArrayList<Person>(actual);
+        Collections.sort(expectedSortedList,personKeyComparator);
+        Collections.sort(actualSortedList,personKeyComparator);
+        for (int i = 0; i < expectedSortedList.size(); i++) {
+            assertPersonDeepEquals(expectedSortedList.get(i), actualSortedList.get(i));
+        }
     }
 }

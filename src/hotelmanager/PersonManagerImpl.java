@@ -14,6 +14,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
@@ -114,6 +116,15 @@ public class PersonManagerImpl implements PersonManager{
         } else {
             return null;
         }
+    }
+    
+    static List<Person> executeQueryForMultiplePersons(PreparedStatement st) throws SQLException {
+        ResultSet rs = st.executeQuery();
+        List<Person> result = new ArrayList<Person>();
+        while (rs.next()) {
+            result.add(rowToPerson(rs));
+        }
+        return result;
     }
     
     static private Person rowToPerson(ResultSet rs) throws SQLException {

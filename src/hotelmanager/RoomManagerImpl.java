@@ -99,7 +99,7 @@ public class RoomManagerImpl implements RoomManager {
         }
     }
     
-    Room executeQueryForSingleRoom(PreparedStatement st) throws SQLException, ServiceFailureException {
+    static Room executeQueryForSingleRoom(PreparedStatement st) throws SQLException, ServiceFailureException {
         ResultSet rs = st.executeQuery();
         if (rs.next()) {
             Room result = rowToRoom(rs);                
@@ -113,7 +113,7 @@ public class RoomManagerImpl implements RoomManager {
         }
     }
     
-    private Room rowToRoom(ResultSet rs) throws SQLException {
+    private static Room rowToRoom(ResultSet rs) throws SQLException {
         Room room = new Room();
         room.setId(rs.getLong("id"));
         room.setCapacity(rs.getInt("capacity"));
@@ -213,7 +213,7 @@ public class RoomManagerImpl implements RoomManager {
         return room;
     }
     
-    private RoomType nameToType(String name) {
+    private static RoomType nameToType(String name) {
         if (name.equals("apartment")) {
             return RoomType.apartment;
         } else if (name.equals("bungalow")) {

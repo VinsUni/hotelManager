@@ -65,7 +65,7 @@ public class RoomManagerImplTest {
         Room result = manager.getRoom(roomId);
         assertEquals(room, result);
         assertNotSame(room, result);
-        assertDeepEquals(room, result);
+        assertRoomDeepEquals(room, result);
 	
     }
     
@@ -80,7 +80,7 @@ public class RoomManagerImplTest {
 
         Room result = manager.getRoom(roomId);
         assertEquals(room, result);
-        assertDeepEquals(room, result);
+        assertRoomDeepEquals(room, result);
 	
     }
     
@@ -136,7 +136,7 @@ public class RoomManagerImplTest {
         assertEquals(2, room.getCapacity());
 
         // Check if updates didn't affected other records
-        assertDeepEquals(g2, manager.getRoom(g2.getId()));
+        assertRoomDeepEquals(g2, manager.getRoom(g2.getId()));
     }
     
     @Test(expected = IllegalArgumentException.class)
@@ -243,7 +243,7 @@ public class RoomManagerImplTest {
 	
     }
     
-    private static Room newRoom(RoomType type, int capacity) {
+    static Room newRoom(RoomType type, int capacity) {
         
         Room room = new Room();
         room.setType(type);
@@ -252,7 +252,7 @@ public class RoomManagerImplTest {
         
     }
     
-    private void assertDeepEquals(Room expected, Room actual) {
+    static void assertRoomDeepEquals(Room expected, Room actual) {
         
         assertEquals(expected.getId(), actual.getId());
         assertEquals(expected.getType(), actual.getType());
