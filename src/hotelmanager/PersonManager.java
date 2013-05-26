@@ -4,6 +4,7 @@
  */
 package hotelmanager;
 import common.ServiceFailureException;
+import java.util.List;
 
 /**
  *
@@ -18,5 +19,7 @@ public interface PersonManager {
     void updatePerson(Person person) throws ServiceFailureException;
     
     void deletePerson(Person person) throws ServiceFailureException;
+    
+    List<Person> getAllPersons() throws ServiceFailureException;
     
 }

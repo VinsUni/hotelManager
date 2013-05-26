@@ -63,6 +63,27 @@ public class HotelManagerImpl implements HotelManager {
             DBUtils.closeQuietly(conn, st);
         }        
     }
+
+    @Override
+    public List<Person> findPersonsNotInRooms() throws ServiceFailureException, IllegalEntityException {
+	checkDataSource();    
+        Connection conn = null;
+        PreparedStatement st = null;
+        try {
+            conn = dataSource.getConnection();
+            st = conn.prepareStatement(
+                    "SELECT id,name,surname,idCardNumber,email,mobile " +
+                    "FROM Person " +
+                    "WHERE roomId is null");
+            return PersonManagerImpl.executeQueryForMultiplePersons(st);
+        } catch (SQLException ex) {
+            String msg = "Error when trying to find free persons ";
+            logger.log(Level.SEVERE, msg, ex);
+            throw new ServiceFailureException(msg, ex);
+        } finally {
+            DBUtils.closeQuietly(conn, st);
+        }     
+    }
     
     @Override
     public List<Person> findPersonsInRoom(Room room) throws ServiceFailureException, IllegalEntityException {

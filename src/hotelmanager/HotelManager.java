@@ -17,6 +17,8 @@ public interface HotelManager {
     
     List<Person> findPersonsInRoom(Room room) throws ServiceFailureException, IllegalEntityException;
     
+    List<Person> findPersonsNotInRooms() throws ServiceFailureException, IllegalEntityException;
+    
     void checkIn(Person person, Room room) throws ServiceFailureException, IllegalEntityException;
     
     void checkOut(Person person, Room room) throws ServiceFailureException, IllegalEntityException;

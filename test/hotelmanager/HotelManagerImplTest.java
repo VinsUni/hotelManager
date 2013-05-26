@@ -6,20 +6,20 @@ package hotelmanager;
 
 import common.DBUtils;
 import common.IllegalEntityException;
+import static hotelmanager.PersonManagerImplTest.assertPersonCollectionDeepEquals;
+import static hotelmanager.PersonManagerImplTest.newPerson;
+import static hotelmanager.RoomManagerImplTest.assertRoomDeepEquals;
+import static hotelmanager.RoomManagerImplTest.newRoom;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import javax.sql.DataSource;
 import org.apache.commons.dbcp.BasicDataSource;
-import org.junit.*;
-
+import org.junit.After;
 import static org.junit.Assert.*;
-import static hotelmanager.PersonManagerImplTest.newPerson;
-import static hotelmanager.PersonManagerImplTest.assertPersonDeepEquals;
-import static hotelmanager.RoomManagerImplTest.newRoom;
-import static hotelmanager.RoomManagerImplTest.assertRoomDeepEquals;
-import static hotelmanager.PersonManagerImplTest.assertPersonCollectionDeepEquals;
-import java.util.Arrays;
-import java.util.Collections;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  *

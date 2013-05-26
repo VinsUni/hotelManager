@@ -1,10 +1,10 @@
 ----------------------------------------------------------------
-Wed Apr 03 19:18:27 CEST 2013:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.9.1.0 - (1344872): instance a816c00e-013d-d0e8-2579-000002d58640 
-on database directory memory:C:\Users\Cmato\Documents\Skola Brno\Java\Java II\hotelManager2\hotelmanager-test  with class loader sun.misc.Launcher$AppClassLoader@489a44f1 
+Sun May 26 01:32:04 CEST 2013:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.9.1.0 - (1344872): instance a816c00e-013e-de08-e296-000002cd4e98 
+on database directory memory:C:\Users\Cmato\Documents\Skola Brno\Java\Java II\hotelManager2\roommgr-tests  with class loader sun.misc.Launcher$AppClassLoader@6040f3c1 
 Loaded from file:/C:/Users/Cmato/Documents/Skola%20Brno/Java/Java%20II/hotelManager2/lib/derby.jar
 java.vendor=Oracle Corporation
 java.runtime.version=1.7.0_03-b05
-user.dir=C:\Users\Cmato\Documents\Skola Brno\Java\Java II\HotelManager2
+user.dir=C:\Users\Cmato\Documents\Skola Brno\Java\Java II\hotelManager2
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''

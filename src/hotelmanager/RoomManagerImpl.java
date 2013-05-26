@@ -15,6 +15,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
@@ -193,6 +195,36 @@ public class RoomManagerImpl implements RoomManager {
         }
     }
     
+   /* @Override
+    public void deleteRoom(Long id) throws ServiceFailureException {
+        checkDataSource();
+        if (id == null) {
+            throw new IllegalArgumentException("room is null");
+        }    
+        Connection conn = null;
+        PreparedStatement st = null;
+        try {
+            conn = dataSource.getConnection();
+            // Temporary turn autocommit mode off. It is turned back on in 
+            // method DBUtils.closeQuietly(...) 
+            conn.setAutoCommit(false);
+            st = conn.prepareStatement(
+                    "DELETE FROM Room WHERE id = ?");
+            st.setLong(1, id);
+
+            int count = st.executeUpdate();
+            DBUtils.checkUpdatesCount(count, id, false);
+            conn.commit();
+        } catch (SQLException ex) {
+            String msg = "Error when deleting room from the db";
+            logger.log(Level.SEVERE, msg, ex);
+            throw new ServiceFailureException(msg, ex);
+        } finally {
+            DBUtils.doRollbackQuietly(conn);
+            DBUtils.closeQuietly(conn, st);
+        }
+    }*/
+    
     static private void validate(Room room) {        
         if (room == null) {
             throw new IllegalArgumentException("room is null");
@@ -221,5 +253,33 @@ public class RoomManagerImpl implements RoomManager {
         } else {
             throw new IllegalArgumentException("wrong type");
         }
+    }
+
+    @Override
+    public List<Room> getAllRooms() throws ServiceFailureException {
+	checkDataSource();
+        Connection conn = null;
+        PreparedStatement st = null;
+        try {
+            conn = dataSource.getConnection();
+            st = conn.prepareStatement(
+                    "SELECT id, type, capacity FROM Room");
+            return executeQueryForMultipleRooms(st);
+        } catch (SQLException ex) {
+            String msg = "Error when getting all rooms from DB";
+            logger.log(Level.SEVERE, msg, ex);
+            throw new ServiceFailureException(msg, ex);
+        } finally {
+            DBUtils.closeQuietly(conn, st);
+        }     
+    }
+    
+    static List<Room> executeQueryForMultipleRooms(PreparedStatement st) throws SQLException {
+        ResultSet rs = st.executeQuery();
+        List<Room> result = new ArrayList<Room>();
+        while (rs.next()) {
+            result.add(rowToRoom(rs));
+        }
+        return result;
     }
 }

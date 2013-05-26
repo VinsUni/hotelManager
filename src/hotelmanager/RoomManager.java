@@ -4,6 +4,7 @@
  */
 package hotelmanager;
 import common.ServiceFailureException;
+import java.util.List;
 
 
 /**
@@ -20,4 +21,8 @@ public interface RoomManager {
     
     void deleteRoom(Room room) throws ServiceFailureException;
     
+    //void deleteRoom(Long id) throws ServiceFailureException;
+    
+    List<Room> getAllRooms() throws ServiceFailureException;
+     
 }

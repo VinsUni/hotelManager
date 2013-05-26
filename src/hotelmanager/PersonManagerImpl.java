@@ -42,7 +42,12 @@ public class PersonManagerImpl implements PersonManager{
     @Override
     public void createPerson(Person person) throws ServiceFailureException {
         checkDataSource();
-        validate(person);
+	try{
+	    validate(person);
+	}catch(IllegalArgumentException e){
+	    throw new ServiceFailureException("validation error");
+	} 
+	
         if (person.getId() != null) {
             throw new IllegalArgumentException("person id is already set");
         }       
@@ -228,14 +233,34 @@ public class PersonManagerImpl implements PersonManager{
         if (person == null) {
             throw new IllegalArgumentException("person is null");
         }
-        if (person.getName() == null) {
+        if (person.getName() == null || person.getName().isEmpty() ) {
             throw new IllegalArgumentException("name is null");
         }
-        if (person.getSurname() == null) {
+        if (person.getSurname() == null || person.getSurname().isEmpty() ) {
             throw new IllegalArgumentException("surname is null");
         }
-        if (person.getIdCardNumber() == null) {
+        if (person.getIdCardNumber() == null || person.getIdCardNumber().isEmpty() ) {
             throw new IllegalArgumentException("IdCardNumber is null");
         }
     }
+
+    @Override
+    public List<Person> getAllPersons() throws ServiceFailureException {
+	checkDataSource();
+        Connection conn = null;
+        PreparedStatement st = null;
+        try {
+            conn = dataSource.getConnection();
+            st = conn.prepareStatement(
+                    "SELECT id,name,surname,idCardNumber,email,mobile FROM person");
+            return executeQueryForMultiplePersons(st);
+        } catch (SQLException ex) {
+            String msg = "Error when getting all persons from DB";
+            logger.log(Level.SEVERE, msg, ex);
+            throw new ServiceFailureException(msg, ex);
+        } finally {
+            DBUtils.closeQuietly(conn, st);
+        }   
+    }
+   
 }
