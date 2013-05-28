@@ -7,10 +7,7 @@ package swingGUI;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-/**
- *
- * @author Cmato
- */
+
 public class Error extends javax.swing.JFrame {
 
     private ResourceBundle general = HotelManagerFrame.LANGUAGE;

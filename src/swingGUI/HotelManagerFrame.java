@@ -22,15 +22,12 @@ import org.junit.After;
 import static org.junit.Assert.*;
 import org.junit.Before;
 
-/**
- *
- * @author Cmato
- */
+
 public class HotelManagerFrame extends javax.swing.JFrame {
     
     
     public static final ResourceBundle DEFAULT_VALUES = ResourceBundle.getBundle("swingGUI.DefaultValues");
-    public static final ResourceBundle LANGUAGE = ResourceBundle.getBundle("swingGUI.General", Locale.forLanguageTag("zh-ZH"));
+    public static final ResourceBundle LANGUAGE = ResourceBundle.getBundle("swingGUI.General", Locale.forLanguageTag(""));
     private ResourceBundle general = LANGUAGE;
     private DataSource ds;
     private static final HotelManagerImpl hotelManager = new HotelManagerImpl();
@@ -137,10 +134,6 @@ public class HotelManagerFrame extends javax.swing.JFrame {
         }.execute();
     }
     
-    @After
-    public void tearDown() throws SQLException {
-        DBUtils.executeSqlScript(ds, RoomManager.class.getResource("dropTables.sql"));
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.

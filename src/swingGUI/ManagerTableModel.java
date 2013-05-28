@@ -10,10 +10,7 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.table.AbstractTableModel;
 
-/**
- *
- * @author Cmato
- */
+
 public class ManagerTableModel extends AbstractTableModel {
     
     private List<Room> rooms = new ArrayList<Room>();

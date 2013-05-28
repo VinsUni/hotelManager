@@ -22,10 +22,7 @@ import org.junit.After;
 import static org.junit.Assert.*;
 import org.junit.Before;
 
-/**
- *
- * @author Cmato
- */
+
 public class CheckIn extends javax.swing.JFrame {
 
     private ResourceBundle general = HotelManagerFrame.LANGUAGE;

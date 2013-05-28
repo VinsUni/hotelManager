@@ -157,7 +157,11 @@ public class PersonManagerImpl implements PersonManager{
     @Override
     public void updatePerson(Person person) throws ServiceFailureException {
         checkDataSource();
-        validate(person);
+        try{
+	    validate(person);
+	}catch(IllegalArgumentException e){
+	    throw new ServiceFailureException("validation error");
+	} 
         
         if (person.getId() == null) {
             throw new IllegalArgumentException("person id is null");

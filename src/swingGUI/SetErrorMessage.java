@@ -4,10 +4,6 @@
  */
 package swingGUI;
 
-/**
- *
- * @author Cmato
- */
 public class SetErrorMessage {
     public SetErrorMessage(String message)
     {

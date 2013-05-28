@@ -14,10 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.SwingWorker;
 
-/**
- *
- * @author Cmato
- */
+
 public class AddPerson extends javax.swing.JFrame {
 
     private ResourceBundle general = HotelManagerFrame.LANGUAGE;

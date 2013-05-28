@@ -10,10 +10,6 @@ import javax.swing.DefaultListModel;
 import javax.swing.event.ListDataListener;
 
 
-/**
- *
- * @author Cmato
- */
 public class RoomListModel extends DefaultListModel<Object> {
 
     private List<Room> rooms = new ArrayList<Room>();

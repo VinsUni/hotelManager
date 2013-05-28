@@ -10,10 +10,7 @@ import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.event.ListDataListener;
 
-/**
- *
- * @author Cmato
- */
+
 public class PersonListModel extends DefaultListModel<Object>  {
     
     private List<Person> persons = new ArrayList<Person>();
